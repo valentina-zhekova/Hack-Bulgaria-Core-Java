@@ -37,12 +37,13 @@ public class Problems2Impl implements Problems2 {
     }
 
     @Override
+    // every element is unique in the array:
     public int kthMin(int k, int[] array) {
         Arrays.sort(array);
         return array[k-1];
     }
     
-    /*// if there were duplicates in the array
+    /*// same task for array with duplicates:
      public int kthMin(int k, int[] array) {
         Arrays.sort(array);
         int counter = 0;
@@ -67,6 +68,8 @@ public class Problems2Impl implements Problems2 {
     }
 
     @Override
+    // the result can be divided by all Natural numbers between 1 and upperBound
+    // maybe thats a slow solution...
     public long getSmallestMultiple(int upperBound) {
         upperBound = Math.abs(upperBound);
         if (upperBound == 1) {
@@ -83,30 +86,29 @@ public class Problems2Impl implements Problems2 {
     }
 
     @Override
-    // better solution?
+    // gives the largest palindrome < N (or <= N?)
+    // bonus: don't use Collections.sort
     public long getLargestPalindrome(long N) {
-        String number = String.valueOf(N);
-        String halfPalindrome = number.substring(0, (number.length() - 1) / 2 + 1);
-        String tail;
-        if (number.length() % 2 == 1) {
-            tail = new StringBuffer(halfPalindrome).reverse().toString().substring(1);
-        } else {
-            tail = new StringBuffer(halfPalindrome).reverse().toString();
+        if (N == 10 || N % 10 == N) {
+            return N - 1;
         }
-        String palindrome = halfPalindrome.concat(tail);
+        String number = String.valueOf(N);
+        int digits = number.length();
+        int parity = digits % 2;
+        String firstHalf = number.substring(0, digits / 2 + parity);
+        String secondHalf = new StringBuffer(firstHalf).reverse().toString().substring(parity);
+        String palindrome = firstHalf.concat(secondHalf);
         if (Integer.parseInt(palindrome) < N) {
             return Integer.parseInt(palindrome);
         } else {
-            int middle = Integer.parseInt(halfPalindrome);
-            halfPalindrome = String.valueOf(middle - 1);
-            if ((number.length() % 2 == 1) && ((number.length() - 1) / 2 + 1 == halfPalindrome.length())) {
-                tail = new StringBuffer(halfPalindrome).reverse().toString().substring(1);
-            } else if ((number.length() % 2 == 0) && !((number.length() - 1) / 2 + 1 == halfPalindrome.length())) {
-                tail = "9" + new StringBuffer(halfPalindrome).reverse().toString();
-            } else {
-                tail = new StringBuffer(halfPalindrome).reverse().toString();
+            int nextFirstHalf = Integer.parseInt(firstHalf) - 1;
+            firstHalf = String.valueOf(nextFirstHalf);
+            secondHalf = new StringBuffer(firstHalf).reverse().toString().substring(parity);
+            if (nextFirstHalf % 10 == 9){
+                // the parity of the digits' count is changed so adapt the middle digit
+                firstHalf += "9";
             }
-            palindrome = halfPalindrome.concat(tail);
+            palindrome = firstHalf.concat(secondHalf);
             return Integer.parseInt(palindrome);
         }
     }
@@ -127,6 +129,8 @@ public class Problems2Impl implements Problems2 {
     }
 
     @Override
+    // k is positive
+    // bonus: without recursion and helper methods
     public long kthFac(int k, int n) {
         int start = 1;
         int end = n;
