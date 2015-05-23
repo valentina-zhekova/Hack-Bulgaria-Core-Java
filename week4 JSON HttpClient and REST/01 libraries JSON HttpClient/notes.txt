@@ -1,0 +1,3 @@
+to do:
+- send mail don't work but try the simple way
+- JToaster and CodeInspector also don't work maybe some day fix them 

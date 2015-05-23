@@ -1,0 +1,4 @@
+to do:
+- look at all tasks later
+- pow as tail recursion
+- bonus: convert to grayscale algorithm task 

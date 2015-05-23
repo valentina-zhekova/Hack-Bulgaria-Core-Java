@@ -1,0 +1,3 @@
+to do:
+- debugging - search tutorials
+- JUnit introduction: last task for reducing file path

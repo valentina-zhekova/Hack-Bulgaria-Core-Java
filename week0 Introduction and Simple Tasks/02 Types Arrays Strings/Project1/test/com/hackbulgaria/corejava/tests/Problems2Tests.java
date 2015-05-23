@@ -82,7 +82,7 @@ public class Problems2Tests {
 
     @Test
     public void testGetLargestPalindrome() {
-        // tests add by me (edge case for the algorithm):
+        // tests added by me (edge case for the algorithm):
         assertEquals(7, problems2.getLargestPalindrome(8));
         assertEquals(9, problems2.getLargestPalindrome(10));
         assertEquals(11, problems2.getLargestPalindrome(20));

@@ -1,0 +1,11 @@
+to do:
+- Atomic Integer with Lock:
+  - should fields be final => immutable class => methods' types - void?
+  - try / fianlly / return issue where is the point
+  - seems if (lock.tryLock()) {lock / do / unlock} is wrong
+    lock / do / unlock just works fine, but why?
+  - what's the point in lazy set; actually what's the difference with int set() ?
+  - also: weakCompareAndSet() vs compareAndSet() ?
+
+- ParallelWebCrawler
+- MultiplyMatrices... almost

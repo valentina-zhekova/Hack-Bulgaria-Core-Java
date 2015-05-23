@@ -40,23 +40,15 @@ public class Problems2Impl implements Problems2 {
     // every element is unique in the array:
     public int kthMin(int k, int[] array) {
         Arrays.sort(array);
-        return array[k-1];
+        return array[k - 1];
     }
-    
-    /*// same task for array with duplicates:
-     public int kthMin(int k, int[] array) {
-        Arrays.sort(array);
-        int counter = 0;
-        k--;
-        while (k > 0) {
-            counter++;
-            if (array[counter - 1] != array[counter]) {
-                k--;
-            }
-        }
-        return array[counter];
-    }
-    */
+
+    /*
+     * // same task for array with duplicates: public int kthMin(int k, int[]
+     * array) { Arrays.sort(array); int counter = 0; k--; while (k > 0) {
+     * counter++; if (array[counter - 1] != array[counter]) { k--; } } return
+     * array[counter]; }
+     */
 
     @Override
     public float getAverage(int[] array) {
@@ -95,7 +87,7 @@ public class Problems2Impl implements Problems2 {
         String number = String.valueOf(N);
         int digits = number.length();
         int parity = digits % 2;
-        String firstHalf = number.substring(0, digits / 2 + parity);
+        String firstHalf = number.substring(0, (digits + 1) / 2);
         String secondHalf = new StringBuffer(firstHalf).reverse().toString().substring(parity);
         String palindrome = firstHalf.concat(secondHalf);
         if (Integer.parseInt(palindrome) < N) {
@@ -104,8 +96,9 @@ public class Problems2Impl implements Problems2 {
             int nextFirstHalf = Integer.parseInt(firstHalf) - 1;
             firstHalf = String.valueOf(nextFirstHalf);
             secondHalf = new StringBuffer(firstHalf).reverse().toString().substring(parity);
-            if (nextFirstHalf % 10 == 9){
-                // the parity of the digits' count is changed so adapt the middle digit
+            if (nextFirstHalf % 10 == 9) {
+                // the parity of the digits' count is changed so adapt the
+                // middle digit
                 firstHalf += "9";
             }
             palindrome = firstHalf.concat(secondHalf);
@@ -147,6 +140,7 @@ public class Problems2Impl implements Problems2 {
     }
 
     @Override
+    // rethink later
     public int getOddOccurrence(int[] array) {
         Arrays.sort(array);
         int startIndex = 0;
@@ -159,12 +153,21 @@ public class Problems2Impl implements Problems2 {
             }
         }
         return array[array.length - 1];
-    }
+    } // Or would be better a help ArrayList with "turn on/off" element?
 
     @Override
+    // solution for a >= 0, b >= 0
+    // improve later
     public long pow(int a, int b) {
-        // think it over!!! O(log(b))
-        return (long) Math.pow(a, b);
+        if (b == 0) {
+            return 1;
+        } else if (b == 1) {
+            return a;
+        } else if (b % 2 == 0) {
+            return pow(a * a, b / 2);
+        } else {
+            return a * pow(a * a, (b - 1) / 2);
+        }
     }
 
     @Override
@@ -186,14 +189,14 @@ public class Problems2Impl implements Problems2 {
                 if (array[j] == array[i] && maxSpan < j - i + 1) {
                     maxSpan = j - i + 1;
                 }
-            }           
+            }
         return maxSpan;
     }
 
     @Override
     public boolean canBalance(int[] array) {
         int sum = 0;
-        for (int number: array) {
+        for (int number : array) {
             sum += number;
         }
         if (sum % 2 == 1) {
@@ -208,9 +211,31 @@ public class Problems2Impl implements Problems2 {
     }
 
     @Override
+    // rethink: if the neighbours are at equal distance to a pixel
+    //          shouldn't it get their average value; but the type is 'int' so it seems "no"...
+    // looks like "top-left" pixels have priority according to google images:D
+    // however search more for the algorithm later & refactor
     public int[][] rescale(int[][] original, int newWidth, int newHeight) {
-        // ????????
-        return null;
+        int width = original[0].length;
+        int height = original.length;
+        double widthRatio;
+        double heightRatio;
+        if (newWidth > width) {
+            widthRatio = newWidth / width;
+        } else {
+            widthRatio = width / newWidth;
+        }
+        if (newHeight > height) {
+            heightRatio = newHeight / height;
+        } else {
+            heightRatio = height / newHeight;
+        }
+        int[][] imageRescaled = new int[newHeight][newWidth];
+        for (int row = 0; row < newHeight; row++)
+            for (int column = 0; column < newWidth; column++) {
+                imageRescaled[column][row] = original[(int)(column * widthRatio)][(int)(row * heightRatio)];
+            }
+        return imageRescaled;
     }
 
     @Override
@@ -219,13 +244,13 @@ public class Problems2Impl implements Problems2 {
     }
 
     @Override
+    // last test adjusted from "Ww" to "WW"
     public String copyEveryChar(String input, int k) {
-        // last test corrected from "Ww" -> "WW"
         String result = "";
         for (int i = 0; i < input.length(); i++)
             for (int count = 0; count < k; count++) {
                 result += input.charAt(i);
-            }        
+            }
         return result;
     }
 
@@ -233,21 +258,16 @@ public class Problems2Impl implements Problems2 {
     public String reverseEveryWord(String arg) {
         String[] words = arg.split(" ");
         for (int i = 0; i < words.length; i++)
-            words[i] = new StringBuffer(words[i]).reverse().toString();
+            words[i] = reverseMe(words[i]);
         return String.join(" ", words);
     }
 
     @Override
     public boolean isPalindrome(String argument) {
-        // why so... (serious?) == works sometimes?
-        String half = argument.substring(0, (argument.length() - 1) / 2 + 1);
-        String tail;
-        if (argument.length() % 2 == 1) {
-            tail = new StringBuffer(half).reverse().toString().substring(1);
-        } else {
-            tail = new StringBuffer(half).reverse().toString();
-        }
-        String result = half.concat(tail);
+        int lengthParity = argument.length() % 2;
+        String head = argument.substring(0, (argument.length() + 1) / 2);
+        String tail = new StringBuffer(head).reverse().toString().substring(lengthParity);
+        String result = head.concat(tail);
         return argument.compareTo(result) == 0;
     }
 
@@ -257,20 +277,28 @@ public class Problems2Impl implements Problems2 {
     }
 
     @Override
+    // accurate for only one star at random index in the string
+    // otherwise => rethink; also refactor later
     public int getPalindromeLength(String input) {
-        String tail = input.substring((input.length() - 1)/ 2 + 1);
-        String head = new StringBuffer(tail).reverse().toString();
-        String result = head.concat("*").concat(tail);
-        while (input.indexOf(result) == -1) {
-            head = head.substring(1);
-            tail = new StringBuffer(head).reverse().toString();
-            result = head.concat("*").concat(tail);
+        int starIndex = input.indexOf('*');
+        String smallerPart;
+        if (starIndex <= (input.length() + 1) / 2) {
+            smallerPart = input.substring(0, starIndex);
+            while (! input.contains(smallerPart + '*' + reverseMe(smallerPart))) {
+                smallerPart = smallerPart.substring(1);
+            }
+        } else {
+            smallerPart = input.substring(starIndex + 1);
+            while (! input.contains(reverseMe(smallerPart) + '*' + smallerPart)) {
+                smallerPart = smallerPart.substring(0, smallerPart.length() - 1);
+            }
         }
-        return head.length();
+        return smallerPart.length();
     }
 
     @Override
     public int countOcurrences(String needle, String haystack) {
+        //System.out.println("dada".split("da").length);
         // problem if needle is " ", rethink later; replace?
         return (haystack + " ").split(needle).length - 1;
     }

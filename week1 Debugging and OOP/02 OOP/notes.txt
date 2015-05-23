@@ -1,0 +1,13 @@
+to do:
+- Cars, Pair and Time are old versions, look them again
+- there was some tricky part with Time, but what exactly?
+- a little awkward StackImpl... refactor it later;
+  should toString() and length() be destructive?
+- tasks 6 and 7: double linked list similar to above
+  but there is factory method in 7*
+- Matrix***:
+  POJO Pixel?
+  Matrix: operate(MO op): calls withPixel
+  MO: Pixel withPixel(x, y, ...)
+  ... what calls what?
+- bonus calculator: interesting task, jar

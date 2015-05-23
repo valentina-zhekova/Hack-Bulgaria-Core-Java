@@ -1,0 +1,3 @@
+to do:
+- SimpleWebsiteCrawler: links problem; maybe URI?
+- HackBG API isn't looked yet at all 
